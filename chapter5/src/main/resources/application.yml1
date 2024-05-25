@@ -1,0 +1,18 @@
+spring:
+  application:
+    name: chapter5
+server:
+  port: 8081
+app:
+  name: SpringBoot Application
+  version: 3.3.0
+  description: A sample Spring Boot application
+  supported-languages:
+    - en
+    - fr
+    - de
+    - es
+  settings:
+    timeout: 100
+    max-connections: 1000
+

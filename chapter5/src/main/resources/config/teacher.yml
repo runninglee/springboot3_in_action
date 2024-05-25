@@ -1,0 +1,17 @@
+teacher:
+  name: 令狐教授
+  course:
+    - 计算机原理
+    - 数据库原理
+    - 计算机网络
+    - 人工智能
+  weekday:
+    saturday: 英语角
+    sunday: 美国之音
+  students:
+    - name: 李雷雷
+      sex: 男
+      position: 班长
+    - name: 韩梅梅
+      sex: 女
+      position: 学习委员

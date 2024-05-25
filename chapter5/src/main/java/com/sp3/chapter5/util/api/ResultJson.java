@@ -1,4 +1,4 @@
-package com.sp3.chapter4.util.api;
+package com.sp3.chapter5.util.api;
 
 public class ResultJson<T> {
     private long code;
