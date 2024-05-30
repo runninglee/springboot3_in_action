@@ -7,7 +7,6 @@ import com.sp3.aop.app.aop.request.CreateAopRequest;
 import com.sp3.aop.util.api.ResultJson;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -24,6 +23,6 @@ public class AopController {
     @GetMapping("/data")
     @DataPermission(value = "s.create_source", entity = AopEntity.class, id = "id")
     public ResultJson<Object> data(CreateAopRequest request) {
-        return ResultJson.success();
+        return ResultJson.success(request);
     }
 }
