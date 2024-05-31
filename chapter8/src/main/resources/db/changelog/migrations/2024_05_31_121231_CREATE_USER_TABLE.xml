@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.4.xsd">
+    <changeSet id="2024_05_31_115721_CREATE_USER_TABLE" author="Hui Lee">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="users"/>
+            </not>
+        </preConditions>
+        <createTable tableName="users" remarks="用户表">
+            <column name="id" autoIncrement="true" remarks="主键" type="BIGINT UNSIGNED">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="username" type="VARCHAR(32) CHARACTER SET utf8 COLLATE utf8_unicode_ci" remarks="用户名">
+                <constraints nullable="true"/>
+            </column>
+            <column name="mobile" type="varchar(24) CHARACTER SET utf8 COLLATE utf8_unicode_ci" remarks="手机号">
+                <constraints nullable="true"/>
+            </column>
+            <column name="password" type="varchar(128) CHARACTER SET utf8 COLLATE utf8_unicode_ci" remarks="用户密码">
+                <constraints nullable="true"/>
+            </column>
+            <column name="avatar" type="varchar(128) CHARACTER SET utf8 COLLATE utf8_unicode_ci" remarks="用户头像">
+                <constraints nullable="true"/>
+            </column>
+            <column name="role_id" type="int(11)" remarks="角色ID">
+                <constraints nullable="true"/>
+            </column>
+            <column name="is_admin" type="tinyint(1)" remarks="是否超级管理员0不是1是" defaultValue="0"/>
+            <column name="status" type="tinyint(1)" remarks="是否启用0不是1是" defaultValue="1"/>
+            <column name="expired_at" type="timestamp" remarks="过期时间">
+                <constraints nullable="true"/>
+            </column>
+            <column name="ip" type="varchar(45) CHARACTER SET utf8 COLLATE utf8_unicode_ci" remarks="IP">
+                <constraints nullable="true"/>
+            </column>
+            <column name="location" type="varchar(128) CHARACTER SET utf8 COLLATE utf8_unicode_ci" remarks="IP地址">
+                <constraints nullable="true"/>
+            </column>
+            <column name="keywords" type="varchar(192) CHARACTER SET utf8 COLLATE utf8_unicode_ci" remarks="关键词">
+                <constraints nullable="true"/>
+            </column>
+            <column name="created_at" type="timestamp" remarks="创建时间">
+                <constraints nullable="true"/>
+            </column>
+            <column name="updated_at" type="timestamp" remarks="更新时间">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+        <createIndex tableName="users" indexName="user_mobile_index" unique="true">
+            <column name="mobile"/>
+        </createIndex>
+    </changeSet>
+</databaseChangeLog>
