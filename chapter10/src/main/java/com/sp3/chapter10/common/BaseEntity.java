@@ -1,4 +1,4 @@
-package com.sp3.chapter9.common;
+package com.sp3.chapter10.common;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
