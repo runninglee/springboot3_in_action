@@ -5,6 +5,11 @@ public class ResultJson<T> {
     private String message;
     private T data;
 
+
+    public ResultJson(){
+
+    }
+
     protected ResultJson(long code, String message, T data) {
         this.code = code;
         this.message = message;
@@ -68,7 +73,7 @@ public class ResultJson<T> {
      *
      * @param message 提示信息
      */
-    public static <T> ResultJson<T> failed(String message,long code) {
+    public static <T> ResultJson<T> failed(String message, long code) {
         return new ResultJson<T>(code, message, null);
     }
 

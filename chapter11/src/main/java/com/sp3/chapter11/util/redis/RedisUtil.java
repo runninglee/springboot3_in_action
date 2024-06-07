@@ -2,7 +2,6 @@ package com.sp3.chapter11.util.redis;
 
 import jakarta.annotation.Resource;
 import org.springframework.data.redis.core.RedisTemplate;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
@@ -13,13 +12,18 @@ import java.util.Set;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import org.springframework.util.CollectionUtils;
-
 @Component
 public class RedisUtil {
 
     @Autowired
     private RedisTemplate<String, Object> redisTemplate;
+
+    //通配查询，比如查询sp3下的user个数
+    // 'sp3:user:*'
+    public Set<String> search(String pattern) {
+        return redisTemplate.keys(pattern);
+    }
+
 
     public boolean expire(String key, long time) {
         try {
@@ -33,11 +37,9 @@ public class RedisUtil {
         }
     }
 
-
     public long getExpire(String key) {
         return redisTemplate.getExpire(key, TimeUnit.SECONDS);
     }
-
 
     /////////////////字符串/////////////////
     public boolean has(String key) {
@@ -81,7 +83,7 @@ public class RedisUtil {
         redisTemplate.delete(key);
     }
 
-    /////////////////HashMap/////////////////
+    /////////////////Map/////////////////
     public Object hget(String key, String item) {
         return redisTemplate.opsForHash().get(key, item);
     }
@@ -145,7 +147,6 @@ public class RedisUtil {
     }
 
     /////////////////Set/////////////////
-
     public Set<Object> sGet(String key) {
         try {
             return redisTemplate.opsForSet().members(key);
@@ -204,7 +205,6 @@ public class RedisUtil {
     }
 
     /////////////////List/////////////////
-
     public List<Object> lGet(String key, long start, long end) {
         try {
             return redisTemplate.opsForList().range(key, start, end);
