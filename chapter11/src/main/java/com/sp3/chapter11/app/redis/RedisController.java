@@ -19,7 +19,7 @@ public class RedisController {
 
     @GetMapping
     public ResultJson<Object> index() {
-        redisTemplate.opsForValue().set("sp3:user:" + Math.random(), "Hui Lee",50, TimeUnit.SECONDS);
+        redisTemplate.opsForValue().set("sp3:user:" + Math.random(), "Hui Lee", 50, TimeUnit.SECONDS);
         return ResultJson.success(redisTemplate.opsForValue().get("user:1"));
     }
 }
