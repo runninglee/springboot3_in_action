@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.concurrent.TimeUnit;
+
 @RestController
 @RequestMapping("api/redis")
 public class RedisController {
@@ -17,7 +19,7 @@ public class RedisController {
 
     @GetMapping
     public ResultJson<Object> index() {
-        redisTemplate.opsForValue().set("sp3:user:" + Math.random(), "Hui Lee");
+        redisTemplate.opsForValue().set("sp3:user:" + Math.random(), "Hui Lee",50, TimeUnit.SECONDS);
         return ResultJson.success(redisTemplate.opsForValue().get("user:1"));
     }
 }
