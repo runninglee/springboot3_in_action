@@ -5,6 +5,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sp3.chapter11.util.api.ResultJson;
 import com.sp3.chapter11.util.redis.RedisUtil;
 import jakarta.annotation.Resource;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,19 +14,21 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.Serializable;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 @RestController
 @RequestMapping("api/redis")
-public class RedisController {
+@NoArgsConstructor
+public class RedisController implements Serializable {
 
     @Resource
     private RedisUtil redisUtil;
 
     @GetMapping("/{id}")
-    @Cacheable(value = "sp3:cache", key = "#id")
-    public ResultJson<Object> index(@PathVariable("id") String id) {
+    @Cacheable(cacheNames = "cache", key = "#id")
+    public ResultJson<Object> index(@PathVariable("id") long id) {
         try {
             redisUtil.set("sp3:user:1", "Spring Boot3 In Action", 60);
             redisUtil.hmset("sp3:user:2", Map.of("name", "HuiLee", "age", Math.random()), 120);

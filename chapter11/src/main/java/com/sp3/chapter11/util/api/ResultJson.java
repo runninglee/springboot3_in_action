@@ -1,16 +1,20 @@
 package com.sp3.chapter11.util.api;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class ResultJson<T> {
-    private long code;
-    private String message;
-    private T data;
 
+    public long code;
+    public String message;
+    public T data;
 
-    public ResultJson(){
+    public ResultJson() {
 
     }
 
-    protected ResultJson(long code, String message, T data) {
+    @JsonCreator
+    public ResultJson(@JsonProperty("code") long code, @JsonProperty("message") String message, @JsonProperty("data") T data) {
         this.code = code;
         this.message = message;
         this.data = data;
