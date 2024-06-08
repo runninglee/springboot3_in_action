@@ -46,7 +46,9 @@ public class RedisController implements Serializable {
                     "sp3:user:4:length",
                     redisUtil.lGetListSize("sp3:user:4"),
                     "sp3:user:sum",
-                    redisUtil.search("sp3:user:*")
+                    redisUtil.search("sp3:user:*"),
+                    "custom",
+                    Map.of("Name", "AWALONG", "Age", 36)
             );
             return ResultJson.success(data);
         } catch (Exception e) {

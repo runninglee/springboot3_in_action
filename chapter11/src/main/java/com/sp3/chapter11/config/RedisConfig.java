@@ -19,22 +19,12 @@ import java.time.Duration;
 @Configuration
 @EnableCaching
 public class RedisConfig {
-
-    @Value("${spring.data.redis.database}")
-    private int database;
-
+    
     @Value("${spring.cache.redis.key-prefix}")
     private String keyPrefix;
 
     @Bean
-    public RedisConnectionFactory redisConnectionFactory() {
-        LettuceConnectionFactory lettuceConnectionFactory = new LettuceConnectionFactory();
-        lettuceConnectionFactory.setDatabase(database);
-        return lettuceConnectionFactory;
-    }
-
-    @Bean
-    public RedisTemplate<String, Object> redisTemplate(RedisConnectionFactory redisConnectionFactory) {
+    public RedisTemplate<String, Object> redisTemplate(LettuceConnectionFactory redisConnectionFactory) {
         RedisTemplate<String, Object> template = new RedisTemplate<>();
         template.setConnectionFactory(redisConnectionFactory);
         template.setKeySerializer(new StringRedisSerializer());
@@ -47,14 +37,14 @@ public class RedisConfig {
     }
 
     @Bean
-    public CacheManager cacheManager(RedisConnectionFactory redisConnectionFactory) {
+    public CacheManager cacheManager(LettuceConnectionFactory redisConnectionFactory) {
         RedisCacheConfiguration redisCacheConfiguration = RedisCacheConfiguration.defaultCacheConfig()
                 .entryTtl(Duration.ofMinutes(15))
                 .disableCachingNullValues()
                 .computePrefixWith(cacheName -> keyPrefix + ":" + cacheName + ":")
                 .serializeKeysWith(RedisSerializationContext.SerializationPair.fromSerializer(new StringRedisSerializer()))
                 .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(new GenericJackson2JsonRedisSerializer()));
-        return RedisCacheManager.builder(redisConnectionFactory())
+        return RedisCacheManager.builder(redisConnectionFactory)
                 .cacheDefaults(redisCacheConfiguration)
                 .build();
     }
