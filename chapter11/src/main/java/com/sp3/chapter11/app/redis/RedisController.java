@@ -34,14 +34,21 @@ public class RedisController implements Serializable {
             redisUtil.hmset("sp3:user:2", Map.of("name", "HuiLee", "age", Math.random()), 120);
             redisUtil.sSetAndTime("sp3:user:3", 120, "Apple", "Samsung", "HuaWei");
             redisUtil.lSet("sp3:user:4", List.of("A", "B", "C", "B"), 180);
-            return ResultJson.success(new HashMap<>() {{
-                put("sp3:user:1", redisUtil.get("sp3:user:1"));
-                put("sp3:user:2", redisUtil.hmget("sp3:user:2"));
-                put("sp3:user:3", redisUtil.sGet("sp3:user:3"));
-                put("sp3:user:3的长度是", redisUtil.sGetSetSize("sp3:user:3"));
-                put("sp3:user:4的长度是", redisUtil.lGetListSize("sp3:user:4"));
-                put("总数", redisUtil.search("sp3:user:*"));
-            }});
+            Map<String, Object> data = Map.of(
+                    "sp3:user:1",
+                    redisUtil.get("sp3:user:1"),
+                    "sp3:user:2",
+                    redisUtil.hmget("sp3:user:2"),
+                    "sp3:user:3",
+                    redisUtil.sGet("sp3:user:3"),
+                    "sp3:user:3:length",
+                    redisUtil.sGetSetSize("sp3:user:3"),
+                    "sp3:user:4:length",
+                    redisUtil.lGetListSize("sp3:user:4"),
+                    "sp3:user:sum",
+                    redisUtil.search("sp3:user:*")
+            );
+            return ResultJson.success(data);
         } catch (Exception e) {
             return ResultJson.failed();
         }
