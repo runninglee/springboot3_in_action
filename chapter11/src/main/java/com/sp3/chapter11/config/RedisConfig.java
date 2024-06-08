@@ -2,6 +2,7 @@ package com.sp3.chapter11.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.CacheManager;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.cache.RedisCacheConfiguration;
@@ -14,10 +15,14 @@ import org.springframework.data.redis.serializer.RedisSerializationContext;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 @Configuration
+//@EnableCaching
 public class RedisConfig {
 
     @Value("${spring.data.redis.database}")
     private int database;
+
+    @Value("${spring.cache.redis.key-prefix}")
+    private String keyPrefix;
 
     @Bean
     public RedisConnectionFactory redisConnectionFactory() {
@@ -40,9 +45,10 @@ public class RedisConfig {
     }
 
     @Bean
-    public CacheManager cacheManager() {
+    public CacheManager cacheManager(RedisConnectionFactory redisConnectionFactory) {
         RedisCacheConfiguration redisCacheConfiguration = RedisCacheConfiguration.defaultCacheConfig()
                 .disableCachingNullValues()
+                .computePrefixWith(cacheName -> keyPrefix + ":" + cacheName + ":")
                 .serializeKeysWith(RedisSerializationContext.SerializationPair.fromSerializer(new StringRedisSerializer()))
                 .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(new GenericJackson2JsonRedisSerializer()));
         return RedisCacheManager.builder(redisConnectionFactory())
