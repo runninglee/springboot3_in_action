@@ -19,12 +19,23 @@ import java.time.Duration;
 @Configuration
 @EnableCaching
 public class RedisConfig {
-    
+
+    @Value("${spring.data.redis.database}")
+    private int database;
+
     @Value("${spring.cache.redis.key-prefix}")
     private String keyPrefix;
 
     @Bean
-    public RedisTemplate<String, Object> redisTemplate(LettuceConnectionFactory redisConnectionFactory) {
+    public RedisConnectionFactory redisConnectionFactory() {
+        LettuceConnectionFactory lettuceConnectionFactory = new LettuceConnectionFactory();
+        lettuceConnectionFactory.setDatabase(database);
+        return lettuceConnectionFactory;
+    }
+
+
+    @Bean
+    public RedisTemplate<String, Object> redisTemplate(RedisConnectionFactory redisConnectionFactory) {
         RedisTemplate<String, Object> template = new RedisTemplate<>();
         template.setConnectionFactory(redisConnectionFactory);
         template.setKeySerializer(new StringRedisSerializer());
@@ -37,7 +48,7 @@ public class RedisConfig {
     }
 
     @Bean
-    public CacheManager cacheManager(LettuceConnectionFactory redisConnectionFactory) {
+    public CacheManager cacheManager(RedisConnectionFactory redisConnectionFactory) {
         RedisCacheConfiguration redisCacheConfiguration = RedisCacheConfiguration.defaultCacheConfig()
                 .entryTtl(Duration.ofMinutes(15))
                 .disableCachingNullValues()

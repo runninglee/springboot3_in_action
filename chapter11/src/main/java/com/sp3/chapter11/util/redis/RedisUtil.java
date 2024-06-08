@@ -15,7 +15,7 @@ import java.util.concurrent.TimeUnit;
 @Component
 public class RedisUtil {
 
-    @Autowired
+    @Resource
     private RedisTemplate<String, Object> redisTemplate;
 
     //通配查询，比如查询sp3下的user个数
