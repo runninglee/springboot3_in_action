@@ -2,17 +2,12 @@ package com.sp3.chapter14.app.user.service.impl;
 
 
 import com.sp3.chapter14.app.user.entity.User;
-import com.sp3.chapter14.app.user.repository.UserRepository;
 import com.sp3.chapter14.app.user.service.UserService;
-import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 
 @Service
 public class UserServiceImpl implements UserService {
-
-    @Resource
-    private UserRepository userRepository;
 
     public Boolean getHandlePermission(String permission) {
         User currentUser = new User(2L, 1L, true);
@@ -40,7 +35,6 @@ public class UserServiceImpl implements UserService {
             }
         }
     }
-
 
     public Boolean isAdmin(User user) {
         return user.getIsAdmin();
