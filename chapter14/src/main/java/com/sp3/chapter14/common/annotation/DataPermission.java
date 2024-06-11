@@ -9,9 +9,16 @@ import java.lang.annotation.Target;
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface DataPermission {
+    //权限
     String value() default "";
 
+    //鉴权资源类型
     Class<?> entity() default Void.class;
 
+    //鉴权资源ID
     String id() default "";
+
+    //鉴权资源Key
+    String key() default "org_id";
+
 }

@@ -19,7 +19,6 @@ public class AopController {
         return ResultJson.success();
     }
 
-
     @GetMapping("handle")
     @HandlePermission("s.create_source")
     public ResultJson<Object> handle() {
