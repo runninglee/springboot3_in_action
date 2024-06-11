@@ -12,4 +12,5 @@ public class Client {
     private Long id;
 
     private Long org_id;
+
 }

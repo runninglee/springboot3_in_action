@@ -9,4 +9,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class User {
     private Long id;
+    private Long orgId;
+    private Boolean isAdmin;
 }

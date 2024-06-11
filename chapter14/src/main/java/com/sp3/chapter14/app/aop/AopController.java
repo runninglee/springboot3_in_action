@@ -26,14 +26,14 @@ public class AopController {
         return ResultJson.success();
     }
 
-    @GetMapping("data")
+    @GetMapping("source-data")
     @DataPermission(value = "s.view_source", entity = Source.class, id = "#id")
     public ResultJson<Object> data(@RequestParam("id") String id) {
         return ResultJson.success(id);
     }
 
-    @GetMapping("data2")
-    @DataPermission(value = "s.view_source", entity = Client.class, id = "#query.id")
+    @GetMapping("client-data")
+    @DataPermission(value = "c.view_client", entity = Client.class, id = "#query.id")
     public ResultJson<Object> data2(UserQuery query) {
         return ResultJson.success(query);
     }
