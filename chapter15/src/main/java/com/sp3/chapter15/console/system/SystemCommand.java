@@ -12,4 +12,9 @@ public class SystemCommand {
     public void init() {
         System.out.println("系统初始化");
     }
+
+    @ShellMethod(value = "系统初始化权限", key = "system:permission")
+    public void permission() {
+        System.out.println("系统初始化权限");
+    }
 }
