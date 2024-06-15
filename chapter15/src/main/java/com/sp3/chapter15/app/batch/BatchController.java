@@ -23,9 +23,13 @@ public class BatchController {
     @Resource
     private Job job;
 
+    @Resource
+    private Job job2;
+
     @GetMapping
     public ResultJson<Object> index() throws JobParametersInvalidException, JobExecutionAlreadyRunningException, JobRestartException, JobInstanceAlreadyCompleteException {
         jobLauncher.run(job, new JobParameters());
+        jobLauncher.run(job2, new JobParameters());
         return ResultJson.success();
     }
 }

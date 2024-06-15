@@ -15,36 +15,36 @@ import org.springframework.transaction.PlatformTransactionManager;
 
 @Configuration
 @EnableBatchProcessing
-public class BatchConfig {
+public class BatchConfig2 {
 
 
     private final JobRepository jobRepository;
     private final PlatformTransactionManager transactionManager;
 
     @Autowired
-    public BatchConfig(JobRepository jobRepository, PlatformTransactionManager transactionManager) {
+    public BatchConfig2(JobRepository jobRepository, PlatformTransactionManager transactionManager) {
         this.jobRepository = jobRepository;
         this.transactionManager = transactionManager;
     }
 
     @Bean
-    public Job job() {
-        return new JobBuilder("job", jobRepository)
-                .start(step())
+    public Job job2() {
+        return new JobBuilder("job2", jobRepository)
+                .start(step2())
                 .build();
     }
 
     @Bean
-    public Step step() {
-        return new StepBuilder("step", jobRepository)
-                .tasklet(tasklet(), transactionManager)
+    public Step step2() {
+        return new StepBuilder("step2", jobRepository)
+                .tasklet(tasklet2(), transactionManager)
                 .build();
     }
 
     @Bean
-    public Tasklet tasklet() {
+    public Tasklet tasklet2() {
         return (contribution, chunkContext) -> {
-            System.out.println("Hello, World!");
+            System.out.println("Hello, World2!");
             return RepeatStatus.FINISHED;
         };
     }
