@@ -3,7 +3,6 @@ package com.sp3.chapter16.common.schedulers.syncUser;
 import org.quartz.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 
 @Configuration
 public class SyncUserConfig {
@@ -15,24 +14,35 @@ public class SyncUserConfig {
                 .build();
     }
 
+
+//    @Bean
+//    public Trigger syncUserTrigger() {
+//        SimpleScheduleBuilder scheduleBuilder = SimpleScheduleBuilder.simpleSchedule()
+//                .withIntervalInSeconds(30)
+//                .repeatForever();
+//        return TriggerBuilder.newTrigger()
+//                .forJob(syncUserJobDetail())
+//                .withIdentity("syncUserTrigger")
+//                .withSchedule(scheduleBuilder)
+//                .build();
+//    }
+
+//    @Bean
+//    public Trigger syncUserTrigger() {
+//        return TriggerBuilder.newTrigger()
+//                .forJob(syncUserJobDetail())
+//                .withIdentity("syncUserTrigger")
+//                .withSchedule(CronScheduleBuilder.cronSchedule("0/30 * * * * ?"))
+//                .build();
+//    }
+
     @Bean
     public Trigger syncUserTrigger() {
-        SimpleScheduleBuilder scheduleBuilder = SimpleScheduleBuilder.simpleSchedule()
-                .withIntervalInSeconds(30)
-                .repeatForever();
         return TriggerBuilder.newTrigger()
                 .forJob(syncUserJobDetail())
                 .withIdentity("syncUserTrigger")
-                .withSchedule(scheduleBuilder)
+                .withSchedule(SimpleScheduleBuilder.simpleSchedule().withIntervalInSeconds(30).repeatForever())
                 .build();
-    }
-
-    @Bean
-    public SchedulerFactoryBean syncUserSchedulerFactoryBean() {
-        SchedulerFactoryBean factory = new SchedulerFactoryBean();
-        factory.setJobDetails(syncUserJobDetail());
-        factory.setTriggers(syncUserTrigger());
-        return factory;
     }
 
 

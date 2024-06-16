@@ -1,9 +1,8 @@
-package com.sp3.chapter11.exception;
+package com.sp3.chapter10.util.exception;
 
 
 
-
-import com.sp3.chapter11.util.api.ResultJson;
+import com.sp3.chapter10.util.api.ResultJson;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;

@@ -1,6 +1,6 @@
 package com.sp3.chapter4.app.api;
 
-import com.sp3.chapter4.exception.GraceException;
+import com.sp3.chapter4.util.api.exception.GraceException;
 import com.sp3.chapter4.util.api.ResultJson;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

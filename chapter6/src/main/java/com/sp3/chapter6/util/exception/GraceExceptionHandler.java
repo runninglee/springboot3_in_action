@@ -1,4 +1,4 @@
-package com.sp3.chapter6.exception;
+package com.sp3.chapter6.util.exception;
 
 
 import com.sp3.chapter6.util.api.ResultJson;

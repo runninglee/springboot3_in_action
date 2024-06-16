@@ -3,7 +3,7 @@ package com.sp3.chapter14.common.aspect;
 import com.sp3.chapter14.app.user.service.impl.UserServiceImpl;
 import com.sp3.chapter14.common.annotation.DataPermission;
 import com.sp3.chapter14.common.annotation.HandlePermission;
-import com.sp3.chapter14.exception.GraceException;
+import com.sp3.chapter14.util.api.exception.GraceException;
 import jakarta.annotation.Resource;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;

@@ -1,7 +1,8 @@
-package com.sp3.chapter5.exception;
+package com.sp3.chapter13.util.exception;
 
 
-import com.sp3.chapter5.util.api.ResultJson;
+import com.sp3.chapter13.util.api.ResultJson;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -33,6 +34,15 @@ public class GraceExceptionHandler {
     @ExceptionHandler(NoResourceFoundException.class)
     public ResultJson<Object> handler(NoResourceFoundException e) {
         return ResultJson.failed("请求路由不存在", 404);
+    }
+
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public ResultJson<Object> handler(DataIntegrityViolationException e) {
+        if (e.getMessage().contains("Duplicate entry")) {
+            return ResultJson.failed("数据重复,禁止重复添加");
+        } else {
+            return ResultJson.failed(e.getMessage());
+        }
     }
 
     @ExceptionHandler(Throwable.class)

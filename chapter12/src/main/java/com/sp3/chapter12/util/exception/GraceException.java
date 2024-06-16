@@ -1,4 +1,4 @@
-package com.sp3.chapter12.exception;
+package com.sp3.chapter12.util.exception;
 
 public class GraceException extends RuntimeException {
 
