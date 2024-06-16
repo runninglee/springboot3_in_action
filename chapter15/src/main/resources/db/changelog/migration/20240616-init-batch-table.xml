@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.4.xsd">
+    <changeSet id="20240616-09-40-init-batch-table" author="Hui Lee">
+        <sql dbms="!h2, oracle, mysql">
+            CREATE TABLE batch_job_instance  (
+            job_instance_id BIGINT  NOT NULL PRIMARY KEY,
+            version BIGINT,
+            job_name VARCHAR(100) NOT NULL,
+            job_key VARCHAR(32) NOT NULL,
+            constraint job_inst_un unique (job_name, job_key)
+            ) ENGINE=InnoDB;
+
+            CREATE TABLE batch_job_execution  (
+            job_execution_id BIGINT  NOT NULL PRIMARY KEY,
+            version BIGINT,
+            job_instance_id BIGINT NOT NULL,
+            create_time DATETIME(6) NOT NULL,
+            start_time DATETIME(6) DEFAULT NULL,
+            end_time DATETIME(6) DEFAULT NULL,
+            status VARCHAR(10),
+            exit_code VARCHAR(2500),
+            exit_message VARCHAR(2500),
+            last_updated DATETIME(6),
+            constraint job_inst_exec_fk foreign key (job_instance_id)
+            references batch_job_instance(job_instance_id)
+            ) ENGINE=InnoDB;
+
+            CREATE TABLE batch_job_execution_params  (
+            job_execution_id BIGINT NOT NULL,
+            parameter_name VARCHAR(100) NOT NULL,
+            parameter_type VARCHAR(100) NOT NULL,
+            parameter_value VARCHAR(2500),
+            identifying CHAR(1) NOT NULL,
+            constraint job_exec_params_fk foreign key (job_execution_id)
+            references batch_job_execution(job_execution_id)
+            ) ENGINE=InnoDB;
+
+            CREATE TABLE batch_step_execution  (
+            step_execution_id BIGINT  NOT NULL PRIMARY KEY,
+            version BIGINT NOT NULL,
+            step_name VARCHAR(100) NOT NULL,
+            job_execution_id BIGINT NOT NULL,
+            create_time DATETIME(6) NOT NULL,
+            start_time DATETIME(6) DEFAULT NULL,
+            end_time DATETIME(6) DEFAULT NULL,
+            status VARCHAR(10),
+            commit_count BIGINT,
+            read_count BIGINT,
+            filter_count BIGINT,
+            write_count BIGINT,
+            read_skip_count BIGINT,
+            write_skip_count BIGINT,
+            process_skip_count BIGINT,
+            rollback_count BIGINT,
+            exit_code VARCHAR(2500),
+            exit_message VARCHAR(2500),
+            last_updated DATETIME(6),
+            constraint job_exec_step_fk foreign key (job_execution_id)
+            references batch_job_execution(job_execution_id)
+            ) ENGINE=InnoDB;
+
+            CREATE TABLE batch_step_execution_context  (
+            step_execution_id BIGINT NOT NULL PRIMARY KEY,
+            short_context VARCHAR(2500) NOT NULL,
+            serialized_context TEXT,
+            constraint step_exec_ctx_fk foreign key (step_execution_id)
+            references batch_step_execution(step_execution_id)
+            ) ENGINE=InnoDB;
+
+            CREATE TABLE batch_job_execution_context  (
+            job_execution_id BIGINT NOT NULL PRIMARY KEY,
+            short_context VARCHAR(2500) NOT NULL,
+            serialized_context TEXT,
+            constraint job_exec_ctx_fk foreign key (job_execution_id)
+            references batch_job_execution(job_execution_id)
+            ) ENGINE=InnoDB;
+
+            CREATE TABLE batch_step_execution_seq (
+            id BIGINT NOT NULL,
+            unique_key CHAR(1) NOT NULL,
+            constraint unique_key_un unique (unique_key)
+            ) ENGINE=InnoDB;
+
+            INSERT INTO batch_step_execution_seq (id, unique_key) SELECT 0, '0' WHERE NOT EXISTS (SELECT * FROM batch_step_execution_seq);
+
+            CREATE TABLE batch_job_execution_seq (
+            id BIGINT NOT NULL,
+            unique_key CHAR(1) NOT NULL,
+            constraint unique_key_un unique (unique_key)
+            ) ENGINE=InnoDB;
+
+            INSERT INTO batch_job_execution_seq (id, unique_key) SELECT 0, '0' WHERE NOT EXISTS (SELECT * FROM batch_job_execution_seq);
+
+            CREATE TABLE batch_job_seq (
+            id BIGINT NOT NULL,
+            unique_key CHAR(1) NOT NULL,
+            constraint unique_key_un unique (unique_key)
+            ) ENGINE=InnoDB;
+
+            INSERT INTO batch_job_seq (id, unique_key) SELECT 0, '0' WHERE NOT EXISTS (SELECT * FROM batch_job_seq);
+        </sql>
+    </changeSet>
+</databaseChangeLog>

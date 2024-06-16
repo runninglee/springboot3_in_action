@@ -21,15 +21,11 @@ public class BatchController {
     private JobLauncher jobLauncher;
 
     @Resource
-    private Job job;
-
-    @Resource
-    private Job job2;
+    private Job importCsvJob;
 
     @GetMapping
     public ResultJson<Object> index() throws JobParametersInvalidException, JobExecutionAlreadyRunningException, JobRestartException, JobInstanceAlreadyCompleteException {
-        jobLauncher.run(job, new JobParameters());
-        jobLauncher.run(job2, new JobParameters());
+        jobLauncher.run(importCsvJob, new JobParameters());
         return ResultJson.success();
     }
 }
