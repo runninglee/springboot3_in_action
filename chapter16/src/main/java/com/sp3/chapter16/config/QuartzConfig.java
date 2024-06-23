@@ -14,7 +14,6 @@ class QuartzConfig {
 
     @Resource
     private Sp3TriggerListener sp3TriggerListener;
-
     
     @PostConstruct
     public void registerListeners() {
