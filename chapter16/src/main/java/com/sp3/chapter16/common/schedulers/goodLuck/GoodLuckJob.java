@@ -2,13 +2,13 @@ package com.sp3.chapter16.common.schedulers.goodLuck;
 
 import org.quartz.*;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
-@Configuration
+@Component
 public class GoodLuckJob implements Job {
 
     @Bean
@@ -27,7 +27,7 @@ public class GoodLuckJob implements Job {
                 .withSchedule(CronScheduleBuilder.cronSchedule("0 0 8 * * ?"))
                 .build();
     }
-    
+
     private static final List<String> GREETINGS = Arrays.asList(
             "早上好！愿今天的阳光带给你温暖和活力，愿你的一天充满美好与成功！ 🌞",
             "新的一天开始了，愿你带着愉快的心情迎接每一个时刻。早安！ 🌼",

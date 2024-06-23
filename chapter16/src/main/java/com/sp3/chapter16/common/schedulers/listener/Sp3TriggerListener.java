@@ -1,13 +1,13 @@
-package com.sp3.chapter16.common.schedulers.tigger;
+package com.sp3.chapter16.common.schedulers.listener;
 
 import lombok.extern.slf4j.Slf4j;
 import org.quartz.JobExecutionContext;
 import org.quartz.Trigger;
 import org.quartz.TriggerListener;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Component;
 
 @Slf4j
-@Configuration
+@Component
 public class Sp3TriggerListener implements TriggerListener {
     @Override
     public String getName() {

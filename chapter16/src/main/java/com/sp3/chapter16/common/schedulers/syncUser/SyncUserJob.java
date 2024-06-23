@@ -2,11 +2,10 @@ package com.sp3.chapter16.common.schedulers.syncUser;
 
 import org.quartz.*;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Component;
 
-@Configuration
+@Component
 public class SyncUserJob implements Job {
-
 
     @Bean
     public JobDetail syncUserJobDetail() {
@@ -15,6 +14,7 @@ public class SyncUserJob implements Job {
                 .storeDurably()
                 .build();
     }
+
     @Bean
     public Trigger syncUserTrigger() {
         return TriggerBuilder.newTrigger()
