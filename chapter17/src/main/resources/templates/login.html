@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>用户登录</title>
+</head>
+<body>
+<h2>登录</h2>
+<form action="/user/login" method="post">
+    <label for="mobile">手机号:</label>
+    <input type="text" id="mobile" name="mobile" required>
+    <br>
+    <label for="password">密码:</label>
+    <input type="password" id="password" name="password" required>
+    <br>
+    <button type="submit">登录</button>
+</form>
+<p style="color:red;">
+    <span th:text="${error}"></span>
+</p>
+</body>
+</html>
