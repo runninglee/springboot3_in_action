@@ -2,13 +2,13 @@ package com.sp3.chapter16.common.schedulers.goodLuck;
 
 import org.quartz.*;
 import org.springframework.context.annotation.Bean;
-import org.springframework.stereotype.Component;
+import org.springframework.context.annotation.Configuration;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
-@Component
+@Configuration
 public class GoodLuckJob implements Job {
 
     @Bean

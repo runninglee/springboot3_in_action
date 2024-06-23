@@ -2,9 +2,9 @@ package com.sp3.chapter16.common.schedulers.syncUser;
 
 import org.quartz.*;
 import org.springframework.context.annotation.Bean;
-import org.springframework.stereotype.Component;
+import org.springframework.context.annotation.Configuration;
 
-@Component
+@Configuration
 public class SyncUserJob implements Job {
 
     @Bean

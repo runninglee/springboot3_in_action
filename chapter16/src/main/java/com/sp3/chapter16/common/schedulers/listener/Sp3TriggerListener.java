@@ -11,27 +11,27 @@ import org.springframework.stereotype.Component;
 public class Sp3TriggerListener implements TriggerListener {
     @Override
     public String getName() {
-        return "sampleTriggerListener";
+        return "speTriggerListener";
     }
 
     @Override
     public void triggerFired(Trigger trigger, JobExecutionContext jobExecutionContext) {
-        log.info("Trigger fired: {}", trigger.getKey());
+        log.info("触发器任务未执行: {}", trigger.getKey());
     }
 
     @Override
     public boolean vetoJobExecution(Trigger trigger, JobExecutionContext jobExecutionContext) {
-        log.info("Trigger veto job execution: {}", trigger.getKey());
+        log.info("触发器任务即将执行: {}", trigger.getKey());
         return false;
     }
 
     @Override
     public void triggerMisfired(Trigger trigger) {
-        log.info("Trigger misfired: {}", trigger.getKey());
+        log.info("触发器错失执行: {}", trigger.getKey());
     }
 
     @Override
     public void triggerComplete(Trigger trigger, JobExecutionContext jobExecutionContext, Trigger.CompletedExecutionInstruction completedExecutionInstruction) {
-        log.info("Trigger complete: {}", trigger.getKey());
+        log.info("触发器任务执行完毕: {}", trigger.getKey());
     }
 }

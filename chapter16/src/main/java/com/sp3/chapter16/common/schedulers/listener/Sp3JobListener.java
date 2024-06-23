@@ -17,18 +17,18 @@ public class Sp3JobListener implements JobListener {
     @Override
     public void jobToBeExecuted(JobExecutionContext jobExecutionContext) {
         String jobName = jobExecutionContext.getJobDetail().getKey().getName();
-        log.info(jobName + " is going to be executed");
+        log.info(jobName + " 执行前回调");
     }
 
     @Override
     public void jobExecutionVetoed(JobExecutionContext jobExecutionContext) {
         String jobName = jobExecutionContext.getJobDetail().getKey().getName();
-        log.info(jobName + " was vetoed and not executed");
+        log.info(jobName + " 不执行回调");
     }
 
     @Override
     public void jobWasExecuted(JobExecutionContext jobExecutionContext, JobExecutionException e) {
         String jobName = jobExecutionContext.getJobDetail().getKey().getName();
-        log.info(jobName + " was executed");
+        log.info(jobName + " 执行后回调");
     }
 }
