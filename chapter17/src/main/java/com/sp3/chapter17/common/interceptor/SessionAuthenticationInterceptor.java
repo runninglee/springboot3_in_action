@@ -9,7 +9,7 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import java.io.IOException;
 
 @Component
-public class AuthenticationInterceptor implements HandlerInterceptor {
+public class SessionAuthenticationInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws IOException {
         if (isUserLoggedIn(request)) {
