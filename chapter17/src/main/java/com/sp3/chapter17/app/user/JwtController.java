@@ -1,54 +1,52 @@
 package com.sp3.chapter17.app.user;
 
+import com.sp3.chapter17.util.api.ResultJson;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
-public class UserController {
-
+@RestController
+@RequestMapping("jwt")
+public class JwtController {
     @GetMapping("user/welcome")
-    public String welcome(HttpServletRequest request, Model model) {
+    public ResultJson<Object> welcome(HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
         model.addAttribute("uid", session.getAttribute("uid"));
         model.addAttribute("username", session.getAttribute("username"));
-        return "welcome";
+        return ResultJson.success("welcome");
     }
 
-    @GetMapping("user/login")
-    public String login() {
-        return "login";
-    }
 
     @PostMapping("/user/login")
-    public String login(HttpServletRequest request) {
+    public ResultJson<Object> login(HttpServletRequest request) {
         String mobile = request.getParameter("mobile");
         String password = request.getParameter("password");
         if ("18937166730".equals(mobile) && "123456".equals(password)) {
             HttpSession session = request.getSession();
             session.setAttribute("uid", 1);
             session.setAttribute("username", "Hui Lee");
-            return "redirect:/user/welcome";
+            return ResultJson.success("welcome");
         } else {
-            return "login";
+            return ResultJson.failed("账户或密码错误,请检查");
         }
     }
 
     @GetMapping("user/info")
-    public String info(HttpServletRequest request, Model model) {
+    public ResultJson<Object> info(HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
         model.addAttribute("uid", session.getAttribute("uid"));
         model.addAttribute("username", session.getAttribute("username"));
-        return "info";
+        return ResultJson.success(model.asMap());
     }
 
     @GetMapping("user/logout")
-    public String logout(HttpSession session) {
+    public ResultJson<Object> logout(HttpSession session) {
         session.invalidate();
-        return "redirect:/user/login";
+        return ResultJson.unauthorized("您已经退出登录");
     }
 
 

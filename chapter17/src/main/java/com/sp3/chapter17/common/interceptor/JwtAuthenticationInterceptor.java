@@ -9,13 +9,13 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import java.io.IOException;
 
 @Component
-public class SessionAuthenticationInterceptor implements HandlerInterceptor {
+public class JwtAuthenticationInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws IOException {
         if (isUserLoggedIn(request)) {
             return true;
         } else {
-            response.sendRedirect("/session/user/login");
+            response.sendRedirect("/jwt/user/login");
             return false;
         }
     }

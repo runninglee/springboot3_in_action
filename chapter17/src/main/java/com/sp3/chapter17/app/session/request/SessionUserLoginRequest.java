@@ -1,9 +1,9 @@
-package com.sp3.chapter17.app.user.request;
+package com.sp3.chapter17.app.session.request;
 
 import lombok.Data;
 
 @Data
-public class UserLoginRequest {
+class SessionUserLoginRequest {
     private String mobile;
     private String password;
 }
