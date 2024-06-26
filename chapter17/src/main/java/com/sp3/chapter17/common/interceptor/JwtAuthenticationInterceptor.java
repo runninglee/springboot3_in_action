@@ -24,29 +24,17 @@ public class JwtAuthenticationInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
         final String authorizationHeader = request.getHeader(header);
-        final String authorizationToken = request.getParameter("token");
-        Long user_id = null;
-
-        if (authorizationHeader != null || authorizationToken != null) {
-            if (authorizationHeader != null) {
-                if (jwtUtil.validateToken(authorizationHeader)) {
-                    user_id = jwtUtil.getSubject(authorizationHeader.substring(7));
-                    response.addDateHeader("user_id", user_id);
-                    return true;
-                }else{
-                    GraceException.display("令牌 TOKEN 无效", 401);
-                    return false;
-                }
-            }
-            if (jwtUtil.validateToken(authorizationToken)) {
-                user_id = jwtUtil.getSubject(authorizationToken);
+        Long user_id;
+        if (authorizationHeader != null) {
+            System.out.println(authorizationHeader);
+            if (jwtUtil.validateToken(authorizationHeader)) {
+                user_id = jwtUtil.getSubject(authorizationHeader.replace(tokenPrefix + " ", ""));
                 response.addDateHeader("user_id", user_id);
                 return true;
-            }else {
+            } else {
                 GraceException.display("令牌 TOKEN 无效", 401);
                 return false;
             }
-
         } else {
             GraceException.display("请求参数缺少Token信息");
             return false;

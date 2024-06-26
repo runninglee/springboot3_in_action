@@ -37,8 +37,8 @@ public class JwtController {
     }
 
     @GetMapping("user/info")
-    public ResultJson<Object> info(@RequestParam("token") String token) {
-        return ResultJson.success(jwtUtil.getSubject(token));
+    public ResultJson<Object> info(HttpServletRequest request) {
+        return ResultJson.success(request.getParameter("user_id"));
     }
 
     @GetMapping("user/logout")
