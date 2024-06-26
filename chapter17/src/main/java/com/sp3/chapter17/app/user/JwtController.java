@@ -1,23 +1,22 @@
 package com.sp3.chapter17.app.user;
 
 import com.sp3.chapter17.util.api.ResultJson;
+import com.sp3.chapter17.util.jwt.JwtUtil;
+import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("jwt")
 public class JwtController {
+
+    @Resource
+    private JwtUtil jwtUtil;
+
     @GetMapping("user/welcome")
-    public ResultJson<Object> welcome(HttpServletRequest request, Model model) {
-        HttpSession session = request.getSession();
-        model.addAttribute("uid", session.getAttribute("uid"));
-        model.addAttribute("username", session.getAttribute("username"));
-        return ResultJson.success("welcome");
+    public ResultJson<Object> welcome() {
+        return ResultJson.success(jwtUtil.getToken("12"));
     }
 
 
@@ -36,11 +35,8 @@ public class JwtController {
     }
 
     @GetMapping("user/info")
-    public ResultJson<Object> info(HttpServletRequest request, Model model) {
-        HttpSession session = request.getSession();
-        model.addAttribute("uid", session.getAttribute("uid"));
-        model.addAttribute("username", session.getAttribute("username"));
-        return ResultJson.success(model.asMap());
+    public ResultJson<Object> info(@RequestParam("token") String token) {
+        return ResultJson.success(jwtUtil.validateToken(token));
     }
 
     @GetMapping("user/logout")
