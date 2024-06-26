@@ -21,12 +21,17 @@ public class SessionController {
     }
 
     @GetMapping("user/login")
-    public String login() {
-        return "login";
+    public String getLogin(HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        if (session != null && session.getAttribute("uid") != null) {
+            return "redirect:/session/user/welcome";
+        } else {
+            return "login";
+        }
     }
 
     @PostMapping("/user/login")
-    public String login(HttpServletRequest request) {
+    public String postLogin(HttpServletRequest request) {
         String mobile = request.getParameter("mobile");
         String password = request.getParameter("password");
         if ("18937166730".equals(mobile) && "123456".equals(password)) {

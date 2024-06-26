@@ -22,7 +22,6 @@ public class SessionAuthenticationInterceptor implements HandlerInterceptor {
 
     private boolean isUserLoggedIn(HttpServletRequest request) {
         HttpSession session = request.getSession(false);
-        System.out.println(session);
         return session != null && session.getAttribute("uid") != null;
     }
 }
