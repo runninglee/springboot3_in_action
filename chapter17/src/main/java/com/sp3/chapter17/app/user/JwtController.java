@@ -38,7 +38,7 @@ public class JwtController {
 
     @GetMapping("user/info")
     public ResultJson<Object> info(@RequestParam("token") String token) {
-        return ResultJson.success(jwtUtil.parse(token));
+        return ResultJson.success(jwtUtil.getSubject(token));
     }
 
     @GetMapping("user/logout")

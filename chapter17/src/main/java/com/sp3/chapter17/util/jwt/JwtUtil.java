@@ -1,5 +1,7 @@
 package com.sp3.chapter17.util.jwt;
 
+import com.sp3.chapter17.util.sqids.SqidsUtil;
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import jakarta.annotation.PostConstruct;
@@ -40,15 +42,14 @@ public class JwtUtil {
         expiredAt = new Date(System.currentTimeMillis() + expireTime * 60 * 10000);
         return this.tokenPrefix + " " + Jwts.builder().header().type("JWT")
                 .and()
-                .audience()
-                .and()
                 .issuer("https://ju-lan.com/api/login")
-                .id(UUID.randomUUID().toString().replace("-",""))
+                .id(UUID.randomUUID().toString().replace("-", ""))
                 .notBefore(new Date())
-                .subject(uid)
+                .subject(SqidsUtil.encode(1L))
                 .signWith(key)
                 .issuedAt(new Date())
                 .expiration(expiredAt)
+//                .claims(Map.of("id", 1, "name", "HuiLee"))
                 .compact();
     }
 
@@ -56,7 +57,16 @@ public class JwtUtil {
         try {
             return Jwts.parser().verifyWith(key).build().parseSignedClaims(token).getPayload();
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            return null;
+        }
+    }
+
+
+    public Long getSubject(String token){
+        try {
+            Claims claims =  Jwts.parser().verifyWith(key).build().parseSignedClaims(token).getPayload();
+            return SqidsUtil.decode(claims.getSubject());
+        } catch (Exception e) {
             return null;
         }
     }
