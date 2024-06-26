@@ -29,24 +29,36 @@ public class JwtUtil {
 
     private SecretKey key;
 
+    private Date expiredAt;
+
     @PostConstruct
     public void init() {
         this.key = Keys.hmacShaKeyFor(secret.getBytes());
     }
 
     public String getToken(String uid) {
+        expiredAt = new Date(System.currentTimeMillis() + expireTime * 60 * 10000);
         return this.tokenPrefix + " " + Jwts.builder().header().type("JWT")
                 .and()
                 .audience()
                 .and()
                 .issuer("https://ju-lan.com/api/login")
-                .id(UUID.randomUUID().toString())
+                .id(UUID.randomUUID().toString().replace("-",""))
                 .notBefore(new Date())
                 .subject(uid)
                 .signWith(key)
                 .issuedAt(new Date())
-                .expiration(new Date(System.currentTimeMillis() + expireTime * 60 * 10000))
+                .expiration(expiredAt)
                 .compact();
+    }
+
+    public io.jsonwebtoken.Claims parse(String token) {
+        try {
+            return Jwts.parser().verifyWith(key).build().parseSignedClaims(token).getPayload();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return null;
+        }
     }
 
     public boolean validateToken(String token) {
