@@ -38,7 +38,7 @@ public class JwtController {
 
     @GetMapping("user/info")
     public ResultJson<Object> info(HttpServletRequest request) {
-        return ResultJson.success(request.getParameter("user_id"));
+        return ResultJson.success(request.getAttribute("user"));
     }
 
     @GetMapping("user/logout")
@@ -46,6 +46,4 @@ public class JwtController {
         session.invalidate();
         return ResultJson.unauthorized("您已经退出登录");
     }
-
-
 }

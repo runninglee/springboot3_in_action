@@ -1,6 +1,5 @@
 package com.sp3.chapter17.common.interceptor;
 
-import com.sp3.chapter17.util.exception.GraceException;
 import com.sp3.chapter17.util.jwt.JwtUtil;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
@@ -23,21 +22,20 @@ public class JwtAuthenticationInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
-        final String authorizationHeader = request.getHeader(header);
-        Long user_id;
-        if (authorizationHeader != null) {
-            System.out.println(authorizationHeader);
-            if (jwtUtil.validateToken(authorizationHeader)) {
-                user_id = jwtUtil.getSubject(authorizationHeader.replace(tokenPrefix + " ", ""));
-                response.addDateHeader("user_id", user_id);
-                return true;
-            } else {
-                GraceException.display("令牌 TOKEN 无效", 401);
+        String token = request.getHeader(header);
+        if (token != null && !token.isEmpty()) {
+            token = token.replace(tokenPrefix + " ", "");
+            try {
+                if (jwtUtil.validateToken(token)) {
+                    request.setAttribute("user", jwtUtil.parse(token));
+                    return true;
+                }
+            } catch (Exception e) {
+                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
                 return false;
             }
-        } else {
-            GraceException.display("请求参数缺少Token信息");
-            return false;
         }
+        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+        return false;
     }
 }

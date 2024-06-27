@@ -61,10 +61,9 @@ public class JwtUtil {
         }
     }
 
-
-    public Long getSubject(String token){
+    public Long getSubject(String token) {
         try {
-            Claims claims =  Jwts.parser().verifyWith(key).build().parseSignedClaims(token).getPayload();
+            Claims claims = Jwts.parser().verifyWith(key).build().parseSignedClaims(token).getPayload();
             return SqidsUtil.decode(claims.getSubject());
         } catch (Exception e) {
             return null;
@@ -73,7 +72,7 @@ public class JwtUtil {
 
     public boolean validateToken(String token) {
         try {
-            Jwts.parser().verifyWith(key).build().parseSignedClaims(token.replace(tokenPrefix + " ", ""));
+            Jwts.parser().verifyWith(key).build().parseSignedClaims(token);
             return true;
         } catch (Exception e) {
             System.out.println(e.getMessage());
