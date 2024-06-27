@@ -1,5 +1,6 @@
 package com.sp3.chapter17.app.user;
 
+import com.sp3.chapter17.common.auth.UserService;
 import com.sp3.chapter17.util.api.ResultJson;
 import com.sp3.chapter17.util.jwt.JwtUtil;
 import jakarta.annotation.Resource;
@@ -16,6 +17,10 @@ public class JwtController {
 
     @Resource
     private JwtUtil jwtUtil;
+
+
+    @Resource
+    private UserService userService;
 
     @GetMapping("user/welcome")
     public ResultJson<Object> welcome() {
@@ -37,8 +42,8 @@ public class JwtController {
     }
 
     @GetMapping("user/info")
-    public ResultJson<Object> info(HttpServletRequest request) {
-        return ResultJson.success(request.getAttribute("user"));
+    public ResultJson<Object> info() {
+        return ResultJson.success(userService.getCurrentUser());
     }
 
     @GetMapping("user/logout")
