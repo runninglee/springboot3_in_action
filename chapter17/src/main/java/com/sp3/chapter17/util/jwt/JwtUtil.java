@@ -78,6 +78,17 @@ public class JwtUtil {
         }
     }
 
+    public boolean isExpirated(String token) {
+        try {
+            Claims claims = Jwts.parser().verifyWith(key).build().parseSignedClaims(token).getPayload();
+            Date expiration = claims.getExpiration();
+            return expiration.before(new Date());
+        } catch (Exception e) {
+            return true;
+        }
+    }
+
+
     public boolean isBlackList(String token) {
         try {
             return JwtBlacklist.contains(token);

@@ -28,7 +28,7 @@ public class JwtAuthenticationInterceptor implements HandlerInterceptor {
         if (token != null && !token.isEmpty()) {
             token = token.replace(tokenPrefix + " ", "");
             try {
-                if (jwtUtil.validateToken(token) && !jwtUtil.isBlackList(token)) {
+                if (jwtUtil.validateToken(token) && !jwtUtil.isExpirated(token) && !jwtUtil.isBlackList(token)) {
                     UserContext.setUser(jwtUtil.parse(token));
                     return true;
                 }
