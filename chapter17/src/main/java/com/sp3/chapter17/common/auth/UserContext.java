@@ -14,7 +14,7 @@ public class UserContext {
     public static Object getUser() {
         return RequestContextHolder.currentRequestAttributes().getAttribute(USER_KEY, RequestAttributes.SCOPE_REQUEST);
     }
-
+    
     public static void clear() {
         RequestContextHolder.currentRequestAttributes().removeAttribute(USER_KEY, RequestAttributes.SCOPE_REQUEST);
     }

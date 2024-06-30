@@ -1,4 +1,4 @@
-package com.sp3.chapter17.common.auth;
+package com.sp3.chapter17.util.jwt;
 
 
 import java.util.HashSet;

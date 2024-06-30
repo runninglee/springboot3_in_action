@@ -1,6 +1,6 @@
 package com.sp3.chapter17.app.jwt.service;
 
-import com.sp3.chapter17.common.auth.JwtBlacklist;
+import com.sp3.chapter17.util.jwt.JwtBlacklist;
 import com.sp3.chapter17.common.auth.UserContext;
 import com.sp3.chapter17.util.api.ResultJson;
 import com.sp3.chapter17.util.jwt.JwtUtil;
@@ -24,7 +24,7 @@ public class UserJwtService {
             String token = jwtUtil.getToken("1");
             response.setHeader(jwtUtil.getHeader(), token);
             UserContext.setUser(Map.of("id", 1, "username", "HuiLee", "mobile", "18812345678"));
-            return ResultJson.success(Map.of("access_token", token, "expired_at", jwtUtil.getExpiredAt(), "type", jwtUtil.getTokenPrefix()));
+            return ResultJson.success(Map.of("access_token", token, "expired_at", jwtUtil.getExpiredAt(), "type", jwtUtil.getTokenPrefix().replace(" ", "")));
         } else {
             return ResultJson.failed("账户或密码错误,请检查");
         }
@@ -35,7 +35,7 @@ public class UserJwtService {
     }
 
     public void logout(String token) {
-        JwtBlacklist.add(token.replace(jwtUtil.getTokenPrefix() + " ", ""));
+        JwtBlacklist.add(token.replace(jwtUtil.getTokenPrefix(), ""));
         UserContext.clear();
     }
 }

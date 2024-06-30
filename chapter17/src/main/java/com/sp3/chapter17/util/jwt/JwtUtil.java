@@ -1,6 +1,5 @@
 package com.sp3.chapter17.util.jwt;
 
-import com.sp3.chapter17.common.auth.JwtBlacklist;
 import com.sp3.chapter17.util.sqids.SqidsUtil;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -21,7 +20,7 @@ public class JwtUtil {
     @Value("${app.jwt.header:Authorization}")
     private String header;
 
-    @Value("${app.jwt.tokenPrefix:Bearer}")
+    @Value("${app.jwt.tokenPrefix:Bearer }")
     private String tokenPrefix;
 
     @Value("${app.jwt.secret:nLEIvvistMiuWGT3daIgL7ZsYCffFQ7lnd3Z2JxN6eOTQcQmHJRbTgECzezbVFeE}")
@@ -41,16 +40,15 @@ public class JwtUtil {
 
     public String getToken(String uid) {
         expiredAt = new Date(System.currentTimeMillis() + expireTime * 60 * 10000);
-        return this.tokenPrefix + " " + Jwts.builder().header().type("JWT")
+        return this.tokenPrefix + Jwts.builder().header().type("JWT")
                 .and()
-                .issuer("https://ju-lan.com/api/login")
+                .issuer("https://sp3.com/api/login")
                 .id(UUID.randomUUID().toString().replace("-", ""))
                 .notBefore(new Date())
                 .subject(SqidsUtil.encode(1L))
                 .signWith(key)
                 .issuedAt(new Date())
                 .expiration(expiredAt)
-//                .claims(Map.of("id", 1, "name", "HuiLee"))
                 .compact();
     }
 
@@ -76,7 +74,6 @@ public class JwtUtil {
             Jwts.parser().verifyWith(key).build().parseSignedClaims(token);
             return true;
         } catch (Exception e) {
-            System.out.println(e.getMessage());
             return false;
         }
     }
