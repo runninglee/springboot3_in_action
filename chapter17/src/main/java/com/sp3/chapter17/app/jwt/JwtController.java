@@ -8,10 +8,7 @@ import com.sp3.chapter17.util.api.ResultJson;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("jwt")
@@ -37,8 +34,8 @@ public class JwtController {
     }
 
     @GetMapping("user/logout")
-    public ResultJson<Object> logout() {
-        userJwtService.logout();
+    public ResultJson<Object> logout(@RequestHeader("Authorization") String token) {
+        userJwtService.logout(token);
         return ResultJson.unauthorized("您已经退出登录");
     }
 }

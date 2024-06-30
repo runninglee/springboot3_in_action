@@ -1,5 +1,6 @@
 package com.sp3.chapter17.app.jwt.service;
 
+import com.sp3.chapter17.common.auth.JwtBlacklist;
 import com.sp3.chapter17.common.auth.UserContext;
 import com.sp3.chapter17.util.api.ResultJson;
 import com.sp3.chapter17.util.jwt.JwtUtil;
@@ -33,7 +34,8 @@ public class UserJwtService {
         return UserContext.getUser();
     }
 
-    public void logout() {
+    public void logout(String token) {
+        JwtBlacklist.add(token.replace(jwtUtil.getTokenPrefix() + " ", ""));
         UserContext.clear();
     }
 }

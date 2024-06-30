@@ -1,5 +1,6 @@
 package com.sp3.chapter17.util.jwt;
 
+import com.sp3.chapter17.common.auth.JwtBlacklist;
 import com.sp3.chapter17.util.sqids.SqidsUtil;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -76,6 +77,14 @@ public class JwtUtil {
             return true;
         } catch (Exception e) {
             System.out.println(e.getMessage());
+            return false;
+        }
+    }
+
+    public boolean isBlackList(String token) {
+        try {
+            return JwtBlacklist.contains(token);
+        } catch (Exception e) {
             return false;
         }
     }
