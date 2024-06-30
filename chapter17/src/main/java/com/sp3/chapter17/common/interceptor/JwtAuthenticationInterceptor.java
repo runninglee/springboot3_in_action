@@ -1,5 +1,6 @@
 package com.sp3.chapter17.common.interceptor;
 
+import com.sp3.chapter17.common.auth.UserContext;
 import com.sp3.chapter17.util.jwt.JwtUtil;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
@@ -27,7 +28,8 @@ public class JwtAuthenticationInterceptor implements HandlerInterceptor {
             token = token.replace(tokenPrefix + " ", "");
             try {
                 if (jwtUtil.validateToken(token)) {
-                    request.setAttribute("user", jwtUtil.parse(token));
+                    UserContext.setUser(jwtUtil.parse(token));
+//                    request.setAttribute("user", jwtUtil.parse(token));
                     return true;
                 }
             } catch (Exception e) {

@@ -9,7 +9,7 @@ import java.util.Map;
 
 
 @Service
-public class UserService {
+public class UserSessionService {
 
     public String login(HttpServletRequest request) {
         String mobile = request.getParameter("mobile");

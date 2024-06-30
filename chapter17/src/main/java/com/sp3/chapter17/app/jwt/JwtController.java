@@ -2,57 +2,43 @@ package com.sp3.chapter17.app.jwt;
 
 //import com.sp3.chapter17.common.auth.UserService;
 
+import com.sp3.chapter17.app.jwt.service.UserJwtService;
+import com.sp3.chapter17.common.auth.UserContext;
 import com.sp3.chapter17.util.api.ResultJson;
-import com.sp3.chapter17.util.jwt.JwtUtil;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.Map;
 
 @RestController
 @RequestMapping("jwt")
 public class JwtController {
 
     @Resource
-    private JwtUtil jwtUtil;
-
-
-//    @Resource
-//    private UserService userService;
+    private UserJwtService userJwtService;
 
     @GetMapping("user/welcome")
     public ResultJson<Object> welcome() {
-        return ResultJson.success();
+        return ResultJson.success(UserContext.getUser());
     }
 
 
     @PostMapping("/user/login")
     public ResultJson<Object> login(HttpServletRequest request, HttpServletResponse response) {
-        String mobile = request.getParameter("mobile");
-        String password = request.getParameter("password");
-        if ("18937166730".equals(mobile) && "123456".equals(password)) {
-            String token = jwtUtil.getToken("1");
-            response.setHeader(jwtUtil.getHeader(), token);
-            return ResultJson.success(Map.of("access_token", token, "expired_at", jwtUtil.getExpiredAt(), "type", jwtUtil.getTokenPrefix()));
-        } else {
-            return ResultJson.failed("账户或密码错误,请检查");
-        }
+        return userJwtService.login(request, response);
     }
 
-//    @GetMapping("user/info")
-//    public ResultJson<Object> info() {
-//        return ResultJson.success(userService.getCurrentUser());
-//    }
+    @GetMapping("user/info")
+    public ResultJson<Object> info() {
+        return ResultJson.success(userJwtService.info());
+    }
 
     @GetMapping("user/logout")
-    public ResultJson<Object> logout(HttpSession session) {
-        session.invalidate();
+    public ResultJson<Object> logout() {
+        userJwtService.logout();
         return ResultJson.unauthorized("您已经退出登录");
     }
 }

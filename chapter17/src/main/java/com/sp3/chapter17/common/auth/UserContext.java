@@ -1,18 +1,21 @@
 package com.sp3.chapter17.common.auth;
 
-import io.jsonwebtoken.Claims;
-import jakarta.servlet.http.HttpServletRequest;
-import org.springframework.stereotype.Component;
+import org.springframework.web.context.request.RequestAttributes;
+import org.springframework.web.context.request.RequestContextHolder;
 
-@Component
 public class UserContext {
-    private HttpServletRequest request;
 
-    public UserContext(HttpServletRequest request) {
-        this.request = request;
+    private static final String USER_KEY = "USER";
+
+    public static void setUser(Object user) {
+        RequestContextHolder.currentRequestAttributes().setAttribute(USER_KEY, user, RequestAttributes.SCOPE_REQUEST);
     }
 
-    public Claims getCurrentUser() {
-        return (Claims) request.getAttribute("user");
+    public static Object getUser() {
+        return RequestContextHolder.currentRequestAttributes().getAttribute(USER_KEY, RequestAttributes.SCOPE_REQUEST);
+    }
+
+    public static void clear() {
+        RequestContextHolder.currentRequestAttributes().removeAttribute(USER_KEY, RequestAttributes.SCOPE_REQUEST);
     }
 }
