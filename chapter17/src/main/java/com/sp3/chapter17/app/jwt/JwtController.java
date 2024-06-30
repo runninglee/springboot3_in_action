@@ -1,13 +1,17 @@
-package com.sp3.chapter17.app.user;
+package com.sp3.chapter17.app.jwt;
 
-import com.sp3.chapter17.common.auth.UserService;
+//import com.sp3.chapter17.common.auth.UserService;
+
 import com.sp3.chapter17.util.api.ResultJson;
 import com.sp3.chapter17.util.jwt.JwtUtil;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Map;
 
@@ -19,8 +23,8 @@ public class JwtController {
     private JwtUtil jwtUtil;
 
 
-    @Resource
-    private UserService userService;
+//    @Resource
+//    private UserService userService;
 
     @GetMapping("user/welcome")
     public ResultJson<Object> welcome() {
@@ -41,10 +45,10 @@ public class JwtController {
         }
     }
 
-    @GetMapping("user/info")
-    public ResultJson<Object> info() {
-        return ResultJson.success(userService.getCurrentUser());
-    }
+//    @GetMapping("user/info")
+//    public ResultJson<Object> info() {
+//        return ResultJson.success(userService.getCurrentUser());
+//    }
 
     @GetMapping("user/logout")
     public ResultJson<Object> logout(HttpSession session) {

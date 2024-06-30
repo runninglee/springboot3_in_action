@@ -1,23 +1,25 @@
 package com.sp3.chapter17.app.session;
 
+import com.sp3.chapter17.app.session.service.UserService;
+import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-
-import java.util.Map;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("session")
 public class SessionController {
 
-    @GetMapping("user/welcome")
-    public String welcome(HttpServletRequest request, Model model) {
+    @Resource
+    private UserService userService;
+
+    @GetMapping("user/welcome{path}")
+    public String welcome(HttpServletRequest request, @MatrixVariable(value = "SP3", pathVar = "path") String sp3, Model model) {
         HttpSession session = request.getSession();
         model.addAttribute("user", session.getAttribute("user"));
+        model.addAttribute("sp3", sp3);
         return "welcome";
     }
 
@@ -33,29 +35,16 @@ public class SessionController {
 
     @PostMapping("/user/login")
     public String postLogin(HttpServletRequest request) {
-        String mobile = request.getParameter("mobile");
-        String password = request.getParameter("password");
-        if ("18937166730".equals(mobile) && "123456".equals(password)) {
-            HttpSession session = request.getSession();
-            session.setAttribute("user", Map.of("id", 1, "username", "HuiLee"));
-            return "redirect:/session/user/welcome";
-        } else {
-            return "login";
-        }
+        return userService.login(request);
     }
 
     @GetMapping("user/info")
     public String info(HttpServletRequest request, Model model) {
-        HttpSession session = request.getSession();
-        model.addAttribute("user", session.getAttribute("user"));
-        return "info";
+        return userService.info(request, model);
     }
 
     @GetMapping("user/logout")
     public String logout(HttpSession session) {
-        session.invalidate();
-        return "redirect:/session/user/login";
+        return userService.logout(session);
     }
-
-
 }

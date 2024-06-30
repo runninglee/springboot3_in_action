@@ -2,11 +2,12 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Welcome</title>
+    <title>欢迎页</title>
 </head>
 <body>
-<h2>Welcome</h2>
-<p>Welcome, <span th:text="${user.username}"></span>!</p>
+<h2>欢迎页</h2>
+<p>欢迎您, <a href="/session/user/info"><span th:text="${user.username}"></span></a>!</p>
+<p>当前Session ID为:<span th:text="${sp3}"></span></p>
 <p><a href="/session/user/logout">Logout</a></p>
 </body>
 </html>
